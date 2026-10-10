@@ -344,3 +344,32 @@ go run ./examples/questionnaire                open the window
 go test ./examples/questionnaire/...           render and check it headless
 go run ./examples/questionnaire/cmd/snapshot   write questionnaire.png, questionnaire-step2.png, questionnaire-done.png and questionnaire-dark.png
 ```
+
+## Messaging
+
+The messaging example shows the message family of uix together: a
+conversation in the message scroller, whose rows are the message turns
+with their bubbles and avatars, and the composer below. A send appends a
+turn of each side, and the scroller follows the new messages while the
+reader is at the end; scrolling back shows the button back to the
+newest.
+
+```
+go run ./examples/messaging                open the window
+go test ./examples/messaging/...           render and check it headless
+go run ./examples/messaging/cmd/snapshot   write messaging.png, messaging-sent.png, messaging-up.png and messaging-dark.png
+```
+
+## Preferences
+
+The preferences example shows the item, native select and alert dialog
+components of uix together, as a settings screen for an account: the
+item group lists the sections, the native select chooses a language, and
+the destructive item opens the alert dialog that confirms deleting the
+account.
+
+```
+go run ./examples/preferences                open the window
+go test ./examples/preferences/...           render and check it headless
+go run ./examples/preferences/cmd/snapshot   write preferences.png, preferences-menu.png, preferences-confirm.png and preferences-dark.png
+```

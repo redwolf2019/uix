@@ -155,6 +155,12 @@ func main() {
 | `carousel` | Slides you flip with buttons, dots or a trackpad |
 | `pagination` | Page numbers with dots and the previous and next buttons |
 | `fileupload` | File zone that uploads a picked file with a progress ring |
+| `alertdialog` | Modal that interrupts for a confirmation, with a media icon and a compact size |
+| `bubble` | Framed surface of a message, in looks from the strong default to an unframed ghost |
+| `item` | Row of a list with a media tile, a title, a description and actions |
+| `message` | Turn of a conversation, with the avatar, the sender line, the bubble and a status line |
+| `messagescroller` | Viewport of a conversation that follows the end, and offers a button back to it |
+| `nativeselect` | Drop-down on the platform's own menu, with grouped options |
 
 The last twelve rows are ports of [BoardUI](https://github.com/BoardUI/boardui)
 components to MyGo's native UI: the same roles and the same look, drawn
