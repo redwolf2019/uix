@@ -378,9 +378,9 @@ go run ./examples/preferences/cmd/snapshot   write preferences.png, preferences-
 
 The writing example shows the writing components of the shadcn/ui
 expansions together in a page of prose: the heading with its anchor, the
-typewriter and the block quote. Clicking the anchor copies
-"uix#getting-started" to the clipboard, and the typewriter types its
-line once.
+inline code chip, the typewriter and the block quote. Clicking the
+anchor copies "uix#getting-started" to the clipboard, and the typewriter
+types its line once.
 
 ```
 go run ./examples/writing                open the window

@@ -184,6 +184,7 @@ the app's home when it has no history.
 | `floatinglabelinput` | Field whose label sits inside it, and floats to the top border on focus or text |
 | `headingwithanchor` | Heading with a link button that copies the section's anchor to the clipboard |
 | `infinitescroll` | Scrolling list that loads the next page as its end comes near |
+| `inlinecode` | Code chip in the prose, with a muted face and the monospace font |
 | `interactivestepper` | Steps of a process, each reachable from its indicator, with Back and Next |
 | `loadingbutton` | Button that turns into a spinner while its work runs, and stops clicks |
 | `magicback` | Round back button that goes back, or home when there is no history |

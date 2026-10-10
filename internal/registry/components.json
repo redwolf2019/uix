@@ -879,6 +879,24 @@
       ]
     },
     {
+      "name": "inlinecode",
+      "type": "components:ui",
+      "install": "internal/ui/components/inlinecode",
+      "import": "github.com/smallnest/uix/components/inlinecode",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/inlinecode/inlinecode.go",
+          "content": "// Package inlinecode provides the Inline Code expansion of shadcn/ui: a\n// code chip in the prose, as `uix add` is written inside a sentence,\n// with a muted face and the monospace font.\n//\n//\tinlinecode.InlineCode(c, inlinecode.Props{Text: \"uix add button\"})\npackage inlinecode\n\nimport \"github.com/egoist/mygo/ui\"\n\n// Props describes the code chip to draw.\ntype Props struct {\n\t// Text is the code, as written in the sentence around it.\n\tText string\n}\n\n// InlineCode draws the code chip and returns it, so a view can chain\n// more calls on it.\nfunc InlineCode(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\te := ui.Box(c).Padding(t.Space(0.75), t.Space(1.5)).Radius(t.Radius - 2).\n\t\tBackground(t.SurfaceHover)\n\te.Children(func() {\n\t\tui.Text(c, p.Text).Font(\"monospace\").FontSize(t.FontSize * 0.875).FontWeight(600).SingleLine()\n\t})\n\treturn e\n}\n"
+        }
+      ]
+    },
+    {
       "name": "input",
       "type": "components:ui",
       "install": "internal/ui/components/input",

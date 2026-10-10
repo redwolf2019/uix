@@ -15,6 +15,7 @@ import (
 	tokens "github.com/smallnest/uix/components/base"
 	"github.com/smallnest/uix/components/blockquote"
 	"github.com/smallnest/uix/components/headingwithanchor"
+	"github.com/smallnest/uix/components/inlinecode"
 	"github.com/smallnest/uix/components/typewriter"
 )
 
@@ -52,6 +53,11 @@ func WritingView(c *ui.Context) {
 			OnAnchor: func() { State.Copied = "uix#getting-started" },
 		})
 		ui.Text(c, "The uix registry brings the shadcn/ui components to MyGo, a native toolkit: the same roles, drawn without HTML.")
+		ui.Row(c).FillWidth().Wrap().AlignItems(ui.Center).Gap(4).Children(func() {
+			ui.Text(c, "Run")
+			inlinecode.InlineCode(c, inlinecode.Props{Text: "uix add button"})
+			ui.Text(c, "to add a component to your app.")
+		})
 		ui.Column(c).FillWidth().Padding(t.Space(2), 0).Children(func() {
 			typewriter.Typewriter(c, typewriter.Props{
 				Text:  "Build native apps with uix.",
