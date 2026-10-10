@@ -373,3 +373,45 @@ go run ./examples/preferences                open the window
 go test ./examples/preferences/...           render and check it headless
 go run ./examples/preferences/cmd/snapshot   write preferences.png, preferences-menu.png, preferences-confirm.png and preferences-dark.png
 ```
+
+## Writing
+
+The writing example shows the writing components of the shadcn/ui
+expansions together in a page of prose: the heading with its anchor, the
+typewriter and the block quote. Clicking the anchor copies
+"uix#getting-started" to the clipboard, and the typewriter types its
+line once.
+
+```
+go run ./examples/writing                open the window
+go test ./examples/writing/...           render and check it headless
+go run ./examples/writing/cmd/snapshot   write writing.png, writing-typed.png and writing-dark.png
+```
+
+## Fields
+
+The fields example shows the field components of the shadcn/ui
+expansions together in a form: the floating label inputs, the auto-size
+text area, the date-time picker and the multiple selector. The fields
+edit the form in place, and Save counts the saves.
+
+```
+go run ./examples/fields                open the window
+go test ./examples/fields/...           render and check it headless
+go run ./examples/fields/cmd/snapshot   write fields.png, fields-filled.png, fields-popup.png and fields-dark.png
+```
+
+## Loading
+
+The loading example shows the remaining components of the shadcn/ui
+expansions together in a checkout: the magic back button, the
+interactive stepper with the infinite-scroll catalog and the loading
+button, and the responsive modal that confirms the order. The catalog
+loads more products as it nears its end; the Pay button turns into a
+spinner for a moment and then opens the order as a modal.
+
+```
+go run ./examples/loading                open the window
+go test ./examples/loading/...           render and check it headless
+go run ./examples/loading/cmd/snapshot   write loading.png, loading-paying.png, loading-order.png and loading-dark.png
+```

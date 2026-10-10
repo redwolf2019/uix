@@ -129,6 +129,24 @@
       ]
     },
     {
+      "name": "autosizetextarea",
+      "type": "components:ui",
+      "install": "internal/ui/components/autosizetextarea",
+      "import": "github.com/smallnest/uix/components/autosizetextarea",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/autosizetextarea/autosizetextarea.go",
+          "content": "// Package autosizetextarea provides the AutoSize Textarea expansion of\n// shadcn/ui: a text area that grows with what is typed, up to a limit,\n// and then scrolls instead of growing further.\n//\n//\tautosizetextarea.AutosizeTextarea(c, autosizetextarea.Props{\n//\t\tValue:       \u0026notes,\n//\t\tPlaceholder: \"Write your notes here…\",\n//\t})\npackage autosizetextarea\n\nimport \"github.com/egoist/mygo/ui\"\n\n// Props describes the text area to draw.\ntype Props struct {\n\t// Value is the text being edited.\n\tValue *string\n\t// Placeholder shows in the empty field, in the muted color.\n\tPlaceholder string\n\t// MinRows and MaxRows bound the height in lines of text: the field\n\t// grows with its text from MinRows up to MaxRows, past which it\n\t// scrolls. 1 and 6 unless set.\n\tMinRows int\n\tMaxRows int\n\t// Label names the field to assistive technology; tests and apps can\n\t// find it by it.\n\tLabel string\n\t// Disabled keeps the field from being edited.\n\tDisabled bool\n}\n\n// AutosizeTextarea draws a multi-line field that grows with *Value and\n// returns it, so a view can chain more calls on it. It fills the width\n// of its container.\nfunc AutosizeTextarea(c *ui.Context, p Props) ui.Element {\n\tmin, max := p.MinRows, p.MaxRows\n\tif min \u003c= 0 {\n\t\tmin = 1\n\t}\n\tif max \u003c= 0 {\n\t\tmax = 6\n\t}\n\te := ui.TextArea(c, p.Value).Lines(min, max).FillWidth()\n\te.Placeholder(p.Placeholder)\n\tif p.Label != \"\" {\n\t\te.Label(p.Label)\n\t}\n\tif p.Disabled {\n\t\te.Disabled(true)\n\t}\n\treturn e\n}\n"
+        }
+      ]
+    },
+    {
       "name": "avatar",
       "type": "components:ui",
       "install": "internal/ui/components/avatar",
@@ -194,6 +212,24 @@
         {
           "path": "internal/ui/tokens/tokens.go",
           "content": "// Package tokens provides the palette a uix app installs, the way the CSS\n// variables of shadcn/ui give a web app its design tokens.\n//\n// The MyGo theme already names its colors semantically: Background,\n// Surface, Text, Accent, Danger, Border and so on. This package curates\n// their values into one palette. Apply it at the top of a view:\n//\n//\tc.SetTheme(tokens.For(c.Theme().Dark))\n//\n// The mapping to the shadcn/ui tokens is:\n//\n//\tbackground   -\u003e Background    primary     -\u003e Accent\n//\tforeground   -\u003e Text          primary-fg  -\u003e AccentText\n//\tsecondary    -\u003e Surface       destructive -\u003e Danger\n//\tmuted        -\u003e SurfaceHover  border      -\u003e Border\n//\tmuted-fg     -\u003e TextMuted     ring        -\u003e Focus\n//\n// uix theme set regenerates this file from the palette it names.\npackage tokens\n\nimport \"github.com/egoist/mygo/ui\"\n\n// Light returns the light appearance with the indigo palette. It\n// starts from the MyGo light theme, which keeps the system-tuned\n// neutrals, fonts and metrics, and overrides the values the palette\n// names. Change a value here and every component restyles at once.\nfunc Light() *ui.Theme {\n\tt := ui.LightTheme()\n\tt.Radius = 8\n\tt.Accent = ui.Hex(\"#6366f1\")\n\tt.AccentHover = ui.Hex(\"#4f46e5\")\n\tt.AccentPressed = ui.Hex(\"#4338ca\")\n\tt.AccentText = ui.Hex(\"#ffffff\")\n\tt.Danger = ui.Hex(\"#e11d48\")\n\tt.Selection = ui.RGBA(99, 102, 241, 0.25)\n\tt.Focus = ui.RGBA(99, 102, 241, 0.55)\n\treturn t\n}\n\n// Dark returns the dark appearance with the indigo palette.\nfunc Dark() *ui.Theme {\n\tt := ui.DarkTheme()\n\tt.Radius = 8\n\tt.Accent = ui.Hex(\"#818cf8\")\n\tt.AccentHover = ui.Hex(\"#6366f1\")\n\tt.AccentPressed = ui.Hex(\"#4f46e5\")\n\tt.AccentText = ui.Hex(\"#ffffff\")\n\tt.Danger = ui.Hex(\"#f43f5e\")\n\tt.Selection = ui.RGBA(129, 140, 248, 0.4)\n\tt.Focus = ui.RGBA(129, 140, 248, 0.6)\n\treturn t\n}\n\n// For returns Light or Dark after the given appearance.\nfunc For(dark bool) *ui.Theme {\n\tif dark {\n\t\treturn Dark()\n\t}\n\treturn Light()\n}\n"
+        }
+      ]
+    },
+    {
+      "name": "blockquote",
+      "type": "components:ui",
+      "install": "internal/ui/components/blockquote",
+      "import": "github.com/smallnest/uix/components/blockquote",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/blockquote/blockquote.go",
+          "content": "// Package blockquote provides a shadcn/ui-style Block Quote, as the\n// expansion of the same name: a quote on a muted face with an accent\n// bar on the start, and the author line at the far end.\n//\n//\tblockquote.Blockquote(c, blockquote.Props{\n//\t\tText:   \"The only thing we have to fear is fear itself.\",\n//\t\tAuthor: \"Franklin D. Roosevelt\",\n//\t})\npackage blockquote\n\nimport \"github.com/egoist/mygo/ui\"\n\n// Props describes the quote to draw.\ntype Props struct {\n\t// Text is the quote.\n\tText string\n\t// Children draw inside the quote instead of Text, as rich content\n\t// of their own.\n\tChildren func()\n\t// Author is the attribution at the far end; empty draws none.\n\tAuthor string\n}\n\n// Blockquote draws the quote and returns it, so a view can chain more\n// calls on it. The quote fills the width of its container.\nfunc Blockquote(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\treturn ui.Box(c).FillWidth().Radius(t.Radius).Clip().Background(t.Surface).Children(func() {\n\t\tui.Row(c).FillWidth().AlignItems(ui.Stretch).Children(func() {\n\t\t\t// The accent bar on the start, as a quotation marks it.\n\t\t\tui.Box(c).Width(3).Shrink(0).Background(t.Accent)\n\t\t\tui.Column(c).Grow(1).Padding(t.Space(3), t.Space(4)).Gap(t.Space(0.5)).Children(func() {\n\t\t\t\tui.Row(c).Gap(t.Space(2)).Children(func() {\n\t\t\t\t\t// The decorative quotation mark, large and muted.\n\t\t\t\t\tui.Text(c, \"“\").FontSize(t.FontSize * 2).FontWeight(700).TextColor(t.TextMuted)\n\t\t\t\t\tui.Column(c).Grow(1).Children(func() {\n\t\t\t\t\t\tif p.Children != nil {\n\t\t\t\t\t\t\tp.Children()\n\t\t\t\t\t\t} else if p.Text != \"\" {\n\t\t\t\t\t\t\tui.Text(c, p.Text).TextAlign(ui.Start)\n\t\t\t\t\t\t}\n\t\t\t\t\t})\n\t\t\t\t})\n\t\t\t\tif p.Author != \"\" {\n\t\t\t\t\tui.Row(c).FillWidth().Justify(ui.End).Children(func() {\n\t\t\t\t\t\tui.Text(c, p.Author).FontWeight(600)\n\t\t\t\t\t})\n\t\t\t\t}\n\t\t\t})\n\t\t})\n\t})\n}\n"
         }
       ]
     },
@@ -524,6 +560,24 @@
       ]
     },
     {
+      "name": "datetimepicker",
+      "type": "components:ui",
+      "install": "internal/ui/components/datetimepicker",
+      "import": "github.com/smallnest/uix/components/datetimepicker",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/datetimepicker/datetimepicker.go",
+          "content": "// Package datetimepicker provides the DateTime Picker expansion of\n// shadcn/ui: a date field and a time field editing one value together.\n//\n//\tdatetimepicker.DateTimePicker(c, datetimepicker.Props{Value: \u0026when})\npackage datetimepicker\n\nimport (\n\t\"time\"\n\n\t\"github.com/egoist/mygo/ui\"\n)\n\n// Props describes the picker to draw.\ntype Props struct {\n\t// Value is the moment being edited: the date field keeps the time of\n\t// day, the time field the date.\n\tValue *time.Time\n\t// Disabled keeps the fields from being edited.\n\tDisabled bool\n}\n\n// DateTimePicker draws the date and the time side by side, editing\n// *Value, and returns the row, so a view can chain more calls on it.\nfunc DateTimePicker(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\treturn ui.Row(c).FillWidth().Gap(t.Space(2)).Children(func() {\n\t\tdate := ui.DateInput(c, p.Value).Grow(1)\n\t\ttime := ui.TimeInput(c, p.Value)\n\t\tif p.Disabled {\n\t\t\tdate.Disabled(true)\n\t\t\ttime.Disabled(true)\n\t\t}\n\t})\n}\n"
+        }
+      ]
+    },
+    {
       "name": "dialog",
       "type": "components:ui",
       "install": "internal/ui/components/dialog",
@@ -681,6 +735,24 @@
       ]
     },
     {
+      "name": "floatinglabelinput",
+      "type": "components:ui",
+      "install": "internal/ui/components/floatinglabelinput",
+      "import": "github.com/smallnest/uix/components/floatinglabelinput",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/floatinglabelinput/floatinglabelinput.go",
+          "content": "// Package floatinglabelinput provides the Floating Label Input expansion\n// of shadcn/ui, a Material-style field: the label sits inside the empty\n// field as a placeholder, and floats to the top border on focus or once\n// something is typed.\n//\n//\tfloatinglabelinput.FloatingLabelInput(c, floatinglabelinput.Props{\n//\t\tLabel: \"Email\",\n//\t\tValue: \u0026email,\n//\t})\npackage floatinglabelinput\n\nimport \"github.com/egoist/mygo/ui\"\n\n// Props describes the field to draw.\ntype Props struct {\n\t// Label is what the field asks for; it shows inside the empty field,\n\t// and floats to the top border on focus or once the field is filled.\n\tLabel string\n\t// Value is the text being edited.\n\tValue *string\n\t// Disabled keeps the field from being edited.\n\tDisabled bool\n}\n\n// FloatingLabelInput draws the field for props and returns it, so a view\n// can chain more calls on it. It fills the width of its container.\nfunc FloatingLabelInput(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\treturn ui.Column(c).FillWidth().Children(func() {\n\t\tvar field ui.Element\n\t\tfloated := false\n\t\tbox := ui.Box(c).FillWidth().Radius(t.Radius).Border(1, t.Border).Background(t.Surface)\n\t\tbox.Children(func() {\n\t\t\tfield = ui.TextInputBase(c, p.Value).FillWidth().TextColor(t.Text)\n\t\t\tfloated = *p.Value != \"\" || field.Focused()\n\t\t\tif p.Disabled {\n\t\t\t\tfield.Disabled(true)\n\t\t\t}\n\t\t\tif !floated {\n\t\t\t\t// While the field is empty and unfocused, the label is\n\t\t\t\t// its placeholder, inside it.\n\t\t\t\tfield.Placeholder(p.Label)\n\t\t\t}\n\t\t})\n\t\tif floated {\n\t\t\t// The label floats to the top border, the background of the\n\t\t\t// field cutting the border behind it, as the expansion's\n\t\t\t// does.\n\t\t\tcolor := t.TextMuted\n\t\t\tif field.Focused() {\n\t\t\t\tcolor = t.Accent\n\t\t\t}\n\t\t\tui.Text(c, p.Label).FontSize(t.FontSize * 0.875).TextColor(color).\n\t\t\t\tTextBackground(t.Background).Absolute().Left(t.Space(3)).Top(-t.Space(2.5))\n\t\t}\n\t})\n}\n"
+        }
+      ]
+    },
+    {
       "name": "form",
       "type": "components:ui",
       "install": "internal/ui/components/form",
@@ -735,6 +807,24 @@
       ]
     },
     {
+      "name": "headingwithanchor",
+      "type": "components:ui",
+      "install": "internal/ui/components/headingwithanchor",
+      "import": "github.com/smallnest/uix/components/headingwithanchor",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/headingwithanchor/headingwithanchor.go",
+          "content": "// Package headingwithanchor provides the Heading With Anchor expansion\n// of shadcn/ui: a heading with a link button beside it, which copies\n// the anchor of the section to the clipboard, as a document's headings\n// deep-link to their place. A native app has no URL; the anchor is the\n// name the app gives the section, and the copy goes to the clipboard,\n// or to the OnAnchor callback instead.\n//\n//\theadingwithanchor.Heading(c, headingwithanchor.Props{\n//\t\tText:   \"Installation\",\n//\t\tAnchor: \"installation\",\n//\t})\npackage headingwithanchor\n\nimport \"github.com/egoist/mygo/ui\"\n\n// Level is the size of a heading.\ntype Level int\n\nconst (\n\t// H1 is the largest heading, H6 the smallest.\n\tH1 Level = iota\n\tH2\n\tH3\n\tH4\n\tH5\n\tH6\n)\n\n// link is the shape of the anchor button, a chain of two links.\nvar link = ui.MustParseSVG([]byte(`\u003csvg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\u003e\u003cpath d=\"M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71\"/\u003e\u003cpath d=\"M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71\"/\u003e\u003c/svg\u003e`))\n\n// Props describes the heading to draw.\ntype Props struct {\n\t// Text is the heading.\n\tText string\n\t// Level is the size of the heading; H1 unless set.\n\tLevel Level\n\t// Anchor is the name of the section, copied to the clipboard as\n\t// \"uix#anchor\"; empty draws no anchor button.\n\tAnchor string\n\t// OnAnchor runs for a click on the anchor button, after the copy;\n\t// nil copies to the clipboard alone.\n\tOnAnchor func()\n\t// NoCopy keeps the anchor button from copying to the clipboard.\n\tNoCopy bool\n}\n\n// sizes of the heading levels, as the expansion scales them.\nvar sizes = []float32{2.25, 1.875, 1.5, 1.25, 1.125, 1}\n\n// Heading draws the text with the anchor button at its end, and returns\n// the row. The heading fills the width of its container.\nfunc Heading(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tlevel := int(p.Level)\n\tif level \u003c 0 || level \u003e= len(sizes) {\n\t\tlevel = 0\n\t}\n\treturn ui.Row(c).FillWidth().Gap(t.Space(2)).AlignItems(ui.Center).Children(func() {\n\t\tui.Text(c, p.Text).FontSize(t.FontSize * sizes[level]).FontWeight(700)\n\t\tif p.Anchor != \"\" {\n\t\t\tb := ui.ButtonBase(c).Size(t.Space(6), t.Space(6)).Shrink(0).Radius(t.Radius)\n\t\t\tb.Draw(func(pp *ui.Painter, r ui.Rect) {\n\t\t\t\tif b.Hovered() || b.Pressed() {\n\t\t\t\t\tpp.Fill(r, t.SurfaceHover, t.Radius)\n\t\t\t\t}\n\t\t\t})\n\t\t\tb.Children(func() {\n\t\t\t\tui.Icon(c, link).Size(t.Space(3.5), t.Space(3.5)).TextColor(t.TextMuted)\n\t\t\t})\n\t\t\tif b.Clicked() {\n\t\t\t\tif !p.NoCopy {\n\t\t\t\t\tc.WriteClipboard(\"uix#\" + p.Anchor)\n\t\t\t\t}\n\t\t\t\tif p.OnAnchor != nil {\n\t\t\t\t\tp.OnAnchor()\n\t\t\t\t}\n\t\t\t}\n\t\t}\n\t})\n}\n"
+        }
+      ]
+    },
+    {
       "name": "icon",
       "type": "components:ui",
       "install": "internal/ui/components/icon",
@@ -767,6 +857,24 @@
         {
           "path": "internal/ui/components/image/image.go",
           "content": "// Package image provides a bitmap or an SVG shown as a picture, for the\n// Image of MyGo.\n//\n//\timage.Image(c, image.Props{\n//\t\tSrc:     photo,\n//\t\tWidth:   120,\n//\t\tHeight:  90,\n//\t\tFit:     ui.ScaleDown,\n//\t})\n//\n// The picture shows at the size of its source, in DIPs, unless Width and\n// Height fit it into another box, scaled by Fit: ScaleDown fits it within\n// without enlarging it, and the default, Contain, fits it within whatever\n// the size needs, keeping the aspect. Width alone fits it into a box of\n// its own aspect, and Height alone into one of the aspect of the source.\n// Grayscale draws it without color.\npackage image\n\nimport (\n\t\"github.com/egoist/mygo/ui\"\n)\n\n// Props describes the picture to draw.\ntype Props struct {\n\t// Src is the picture: a *ui.Bitmap, or an *ui.SVG in its own colors.\n\tSrc ui.ImageSource\n\t// Width and Height, when set, fit the picture into a box of that\n\t// size. One of them alone keeps the aspect of the source; neither\n\t// shows the picture at its own size.\n\tWidth, Height float32\n\t// Fit scales the picture to the box: the zero value, Contain, fits\n\t// it within keeping the aspect, ScaleDown only where that is\n\t// smaller, Cover crops to cover it, and FillBox stretches it.\n\tFit ui.Fit\n\t// Grayscale draws the picture in shades of gray.\n\tGrayscale bool\n}\n\n// Image draws the picture and returns it, so a view can chain more calls\n// on it.\nfunc Image(c *ui.Context, p Props) ui.Element {\n\te := ui.Image(c, p.Src)\n\tif p.Width \u003e 0 || p.Height \u003e 0 {\n\t\tswitch {\n\t\tcase p.Width \u003e 0 \u0026\u0026 p.Height \u003e 0:\n\t\t\te.Size(p.Width, p.Height)\n\t\tcase p.Width \u003e 0:\n\t\t\te.Width(p.Width)\n\t\tcase p.Height \u003e 0:\n\t\t\te.Height(p.Height)\n\t\t}\n\t}\n\tif p.Fit != 0 {\n\t\te.Fit(p.Fit)\n\t}\n\tif p.Grayscale {\n\t\te.Grayscale()\n\t}\n\treturn e\n}\n"
+        }
+      ]
+    },
+    {
+      "name": "infinitescroll",
+      "type": "components:ui",
+      "install": "internal/ui/components/infinitescroll",
+      "import": "github.com/smallnest/uix/components/infinitescroll",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/infinitescroll/infinitescroll.go",
+          "content": "// Package infinitescroll provides the Infinite Scroll expansion of\n// shadcn/ui: a list that loads the next page of rows as its end comes\n// near, so scrolling never runs out, as a feed or a log of a long\n// stream does.\n//\n//\tinfinitescroll.InfiniteScroll(c, infinitescroll.Props{\n//\t\tState:  \u0026app.feed,\n//\t\tOnMore: loadMore,\n//\t\tChildren: app.rows,\n//\t})\npackage infinitescroll\n\nimport \"github.com/egoist/mygo/ui\"\n\n// State tracks the list of an InfiniteScroll; the view keeps one and\n// passes it in, as a feed keeps where it is scrolled to.\ntype State struct {\n\t// Scroll is the position of the list; the view can set Y to scroll\n\t// it, as for any scroll container.\n\tScroll ui.ScrollState\n\t// Fired latches the trigger, so OnMore runs once per visit to the\n\t// end; the component resets it as the list scrolls away.\n\tFired bool\n}\n\n// Props describes the list to draw.\ntype Props struct {\n\t// State is where the list keeps its scroll and its trigger; the view\n\t// owns it, as a feed owns where it is.\n\tState *State\n\t// OnMore loads the next page of rows; it runs when the list nears\n\t// its end and the trigger has not fired since.\n\tOnMore func()\n\t// Children draws the rows; the view appends the next page of rows\n\t// in OnMore, and the list shows them as they are added.\n\tChildren func()\n}\n\n// InfiniteScroll draws the scrolling list and returns it, so a view can\n// chain more calls on it. It fills its container.\nfunc InfiniteScroll(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\ts := ui.Scroll(c).Fill().TrackScroll(\u0026p.State.Scroll)\n\ts.Children(p.Children)\n\t// Near the end, load the next page, once until the list scrolls away\n\t// and back. MaxY is the height of the last frame; zero means the\n\t// rows fit the list, and nothing is loaded yet.\n\tif p.State.Scroll.MaxY \u003e 0 {\n\t\tnear := p.State.Scroll.Y \u003e= p.State.Scroll.MaxY-t.Space(8)\n\t\tswitch {\n\t\tcase near \u0026\u0026 !p.State.Fired:\n\t\t\tp.State.Fired = true\n\t\t\tif p.OnMore != nil {\n\t\t\t\tp.OnMore()\n\t\t\t}\n\t\tcase !near:\n\t\t\tp.State.Fired = false\n\t\t}\n\t}\n\treturn s\n}\n"
         }
       ]
     },
@@ -821,6 +929,24 @@
         {
           "path": "internal/ui/components/inputotp/inputotp.go",
           "content": "// Package inputotp provides a shadcn/ui-style input for a one-time\n// password, or any short code: a row of cells, one character each, that\n// typing fills in turn, as a verification code a message brings. The\n// arrows move the caret among the cells, Backspace takes the character\n// before it, and pasting a longer code fills the cells it reaches.\n//\n//\tinputotp.OTP(c, inputotp.Props{\n//\t\tState:      \u0026code,\n//\t\tLength:     6,\n//\t\tOnComplete: func(code string) { app.verify(code) },\n//\t})\npackage inputotp\n\nimport \"github.com/egoist/mygo/ui\"\n\n// State is where the code is, kept by the app.\ntype State struct {\n\t// Code is the code typed so far, one character a cell.\n\tCode string\n\t// cursor is the cell the typing fills next, -1 for none.\n\tcursor int\n}\n\n// Props describes the code field to draw.\ntype Props struct {\n\t// State is where the code is, for the app to keep.\n\tState *State\n\t// Length is the number of cells; 6 when zero.\n\tLength int\n\t// Disabled keeps the cells from being edited.\n\tDisabled bool\n\t// OnComplete runs when the last cell fills, with the code; Enter in\n\t// a full field runs it too.\n\tOnComplete func(code string)\n}\n\n// OTP draws the cells of the code and returns them, so a view can chain\n// more calls on it. The cells are one stop of Tab; the caret cell reads\n// on the accent while the field has the focus.\nfunc OTP(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tst := p.State\n\tif st == nil {\n\t\tst = \u0026State{}\n\t}\n\tn := p.Length\n\tif n \u003c= 0 {\n\t\tn = 6\n\t}\n\t// The code and the caret within the cells, as the last frame left\n\t// them or the app preset them.\n\tif len(st.Code) \u003e n {\n\t\tst.Code = st.Code[:n]\n\t}\n\tif st.cursor \u003c 0 || st.cursor \u003e len(st.Code) {\n\t\tst.cursor = len(st.Code)\n\t}\n\tif st.cursor \u003e n {\n\t\tst.cursor = n\n\t}\n\n\tcell := t.Space(10)\n\tgap := t.Space(1.5)\n\trow := ui.Row(c).Gap(gap).Focusable()\n\tif p.Disabled {\n\t\trow.Disabled(true)\n\t}\n\trow.HandleInput(func(ev ui.InputEvent) bool {\n\t\tif p.Disabled {\n\t\t\treturn false\n\t\t}\n\t\tswitch ev.Kind {\n\t\tcase ui.InputText:\n\t\t\ttook := false\n\t\t\tfor _, r := range ev.Text {\n\t\t\t\tif st.cursor \u003e= n {\n\t\t\t\t\tbreak\n\t\t\t\t}\n\t\t\t\tif st.cursor == len(st.Code) {\n\t\t\t\t\tst.Code += string(r)\n\t\t\t\t} else {\n\t\t\t\t\tst.Code = st.Code[:st.cursor] + string(r) + st.Code[st.cursor+1:]\n\t\t\t\t}\n\t\t\t\tst.cursor++\n\t\t\t\ttook = true\n\t\t\t}\n\t\t\tif took \u0026\u0026 len(st.Code) == n \u0026\u0026 p.OnComplete != nil {\n\t\t\t\tp.OnComplete(st.Code)\n\t\t\t}\n\t\t\treturn took\n\t\tcase ui.InputKeyDown:\n\t\t\tswitch ev.Key {\n\t\t\tcase ui.KeyBackspace:\n\t\t\t\tif st.cursor \u003e 0 {\n\t\t\t\t\tst.cursor--\n\t\t\t\t\tif st.cursor \u003c len(st.Code) {\n\t\t\t\t\t\tst.Code = st.Code[:st.cursor] + st.Code[st.cursor+1:]\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\treturn true\n\t\t\tcase ui.KeyLeft:\n\t\t\t\tif st.cursor \u003e 0 {\n\t\t\t\t\tst.cursor--\n\t\t\t\t}\n\t\t\t\treturn true\n\t\t\tcase ui.KeyRight:\n\t\t\t\tif st.cursor \u003c len(st.Code) {\n\t\t\t\t\tst.cursor++\n\t\t\t\t}\n\t\t\t\treturn true\n\t\t\tcase ui.KeyEnter:\n\t\t\t\tif len(st.Code) == n \u0026\u0026 p.OnComplete != nil {\n\t\t\t\t\tp.OnComplete(st.Code)\n\t\t\t\t}\n\t\t\t\treturn true\n\t\t\t}\n\t\tcase ui.InputPointerDown:\n\t\t\t// The row is Focusable, so the pointer going down on a cell\n\t\t\t// gives it the focus, and the typing that follows fills the\n\t\t\t// cells; no call to Focus here, which an element of the frame\n\t\t\t// being built could not take.\n\t\t\tst.cursor = int(ev.X) / int(cell+gap)\n\t\t\tif st.cursor \u003e n-1 {\n\t\t\t\tst.cursor = n - 1\n\t\t\t}\n\t\t\tif st.cursor \u003e len(st.Code) {\n\t\t\t\tst.cursor = len(st.Code)\n\t\t\t}\n\t\t\treturn true\n\t\t}\n\t\treturn false\n\t})\n\t// The caret of the focused cell, where the input methods show their\n\t// candidates.\n\trow.TextCaret(ui.Rect{X: float32(st.cursor) * (cell + gap), Y: 0, W: cell, H: cell})\n\trow.Children(func() {\n\t\tfor i := 0; i \u003c n; i++ {\n\t\t\tch := \"\"\n\t\t\tif i \u003c len(st.Code) {\n\t\t\t\tch = string(st.Code[i])\n\t\t\t}\n\t\t\tface := ui.Box(c).Size(cell, cell).Radius(t.Radius).Background(t.Surface).\n\t\t\t\tBorder(1, t.Border).Center()\n\t\t\tif i == st.cursor \u0026\u0026 row.Focused() {\n\t\t\t\tface.Border(2, t.Accent)\n\t\t\t}\n\t\t\tface.Children(func() {\n\t\t\t\tif ch != \"\" {\n\t\t\t\t\tui.Text(c, ch).FontSize(t.FontSize * 1.25)\n\t\t\t\t}\n\t\t\t})\n\t\t}\n\t})\n\treturn row\n}\n"
+        }
+      ]
+    },
+    {
+      "name": "interactivestepper",
+      "type": "components:ui",
+      "install": "internal/ui/components/interactivestepper",
+      "import": "github.com/smallnest/uix/components/interactivestepper",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/interactivestepper/interactivestepper.go",
+          "content": "// Package interactivestepper provides the Interactive Stepper expansion\n// of shadcn/ui: a set of steps that show how far a multi-step process\n// has gone, each reachable from the indicator, with Back and Next\n// moving between them. The number stepper of uix is a different thing:\n// it counts up and down by a step.\n//\n//\tinteractivestepper.InteractiveStepper(c, interactivestepper.Props{\n//\t\tStep:  \u0026app.step,\n//\t\tSteps: []interactivestepper.Step{{Title: \"Account\", Body: accountForm}},\n//\t})\npackage interactivestepper\n\nimport (\n\t\"strconv\"\n\n\t\"github.com/egoist/mygo/ui\"\n)\n\n// Step describes one stage of the stepper.\ntype Step struct {\n\t// Title names the step, beside its indicator.\n\tTitle string\n\t// Body draws the step's content; nil draws nothing for the step.\n\tBody func(c *ui.Context)\n\t// Disabled keeps the step from being reached.\n\tDisabled bool\n}\n\n// Props describes the steps to draw.\ntype Props struct {\n\t// Steps are the stages, in order.\n\tSteps []Step\n\t// Step is the current step; the component writes it as the user\n\t// moves. It is kept within the steps.\n\tStep *int\n\t// OnComplete runs when Next is chosen on the last step.\n\tOnComplete func()\n}\n\n// check is the mark of a finished step.\nvar check = ui.MustParseSVG([]byte(`\u003csvg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\u003e\u003cpath d=\"M20 6 9 17l-5-5\"/\u003e\u003c/svg\u003e`))\n\n// InteractiveStepper draws the indicators, the content of the current\n// step and the Back and Next buttons, and returns the column, so a view\n// can chain more calls on it.\nfunc InteractiveStepper(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tif len(p.Steps) == 0 {\n\t\treturn ui.Column(c)\n\t}\n\tcur := 0\n\tif p.Step != nil {\n\t\tcur = min(max(*p.Step, 0), len(p.Steps)-1)\n\t}\n\treturn ui.Column(c).FillWidth().Gap(t.Space(4)).Children(func() {\n\t\t// The indicators, with the line between them colored once the\n\t\t// step before it is done.\n\t\tui.Row(c).FillWidth().AlignItems(ui.Center).Children(func() {\n\t\t\tfor i := range p.Steps {\n\t\t\t\tif i \u003e 0 {\n\t\t\t\t\tline := t.Border\n\t\t\t\t\tif i-1 \u003c cur {\n\t\t\t\t\t\tline = t.Accent\n\t\t\t\t\t}\n\t\t\t\t\tui.Box(c).Height(2).Grow(1).Radius(1).Background(line)\n\t\t\t\t}\n\t\t\t\tindicator(c, t, p, i, cur)\n\t\t\t}\n\t\t})\n\t\tif p.Steps[cur].Body != nil {\n\t\t\tp.Steps[cur].Body(c)\n\t\t}\n\t\tui.Row(c).FillWidth().Justify(ui.SpaceBetween).Children(func() {\n\t\t\tbackButton(c, t, p, cur)\n\t\t\tnextButton(c, t, p, cur)\n\t\t})\n\t})\n}\n\n// indicator draws one step's circle and title; a click on the circle\n// moves the stepper to the step, unless it is disabled.\nfunc indicator(c *ui.Context, t *ui.Theme, p Props, i, cur int) {\n\tui.Row(c).AlignItems(ui.Center).Gap(t.Space(1.5)).Children(func() {\n\t\tb := ui.ButtonBase(c).Size(t.Space(5), t.Space(5)).Radius(t.Space(2.5)).Shrink(0)\n\t\tswitch {\n\t\tcase i \u003c cur || i == cur:\n\t\t\tb.Background(t.Accent)\n\t\tdefault:\n\t\t\tb.Background(t.Surface).Border(1, t.Border)\n\t\t}\n\t\tif p.Steps[i].Disabled {\n\t\t\tb.Opacity(0.4)\n\t\t} else {\n\t\t\tb.Children(func() {\n\t\t\t\tif i \u003c cur {\n\t\t\t\t\tui.Icon(c, check).Size(t.Space(3), t.Space(3)).TextColor(t.AccentText)\n\t\t\t\t} else {\n\t\t\t\t\tcolor := t.TextMuted\n\t\t\t\t\tif i == cur {\n\t\t\t\t\t\tcolor = t.AccentText\n\t\t\t\t\t}\n\t\t\t\t\tui.Text(c, strconv.Itoa(i+1)).SingleLine().TextColor(color)\n\t\t\t\t}\n\t\t\t})\n\t\t\tif b.Clicked() {\n\t\t\t\t*p.Step = i\n\t\t\t}\n\t\t}\n\t\tui.Text(c, p.Steps[i].Title).SingleLine()\n\t})\n}\n\n// backButton moves the stepper to the previous step that can be\n// reached; there is none on the first step.\nfunc backButton(c *ui.Context, t *ui.Theme, p Props, cur int) {\n\tb := ui.ButtonBase(c).Padding(t.Space(1.5), t.Space(3.5)).Radius(t.Radius).\n\t\tBackground(t.Surface).TextColor(t.Text).Border(1, t.Border)\n\tb.Children(func() { ui.Text(c, \"Back\").SingleLine() })\n\tif b.Clicked() \u0026\u0026 cur \u003e 0 {\n\t\tfor j := cur - 1; j \u003e= 0; j-- {\n\t\t\tif !p.Steps[j].Disabled {\n\t\t\t\t*p.Step = j\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\t}\n}\n\n// nextButton moves the stepper on, or finishes on the last step.\nfunc nextButton(c *ui.Context, t *ui.Theme, p Props, cur int) {\n\tlast := cur == len(p.Steps)-1\n\tlabel := \"Next\"\n\tif last {\n\t\tlabel = \"Finish\"\n\t}\n\tb := ui.ButtonBase(c).Padding(t.Space(1.5), t.Space(3.5)).Radius(t.Radius).\n\t\tBackground(t.Accent).TextColor(t.AccentText)\n\tb.Children(func() { ui.Text(c, label).SingleLine() })\n\tif b.Clicked() {\n\t\tif last {\n\t\t\tif p.OnComplete != nil {\n\t\t\t\tp.OnComplete()\n\t\t\t}\n\t\t\treturn\n\t\t}\n\t\tfor j := cur + 1; j \u003c len(p.Steps); j++ {\n\t\t\tif !p.Steps[j].Disabled {\n\t\t\t\t*p.Step = j\n\t\t\t\tbreak\n\t\t\t}\n\t\t}\n\t}\n}\n"
         }
       ]
     },
@@ -933,6 +1059,24 @@
       ]
     },
     {
+      "name": "loadingbutton",
+      "type": "components:ui",
+      "install": "internal/ui/components/loadingbutton",
+      "import": "github.com/smallnest/uix/components/loadingbutton",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/loadingbutton/loadingbutton.go",
+          "content": "// Package loadingbutton provides the Loading Button expansion of\n// shadcn/ui: a button that turns into a spinner while its work runs, and\n// will not be clicked again until it is done.\n//\n//\tloadingbutton.LoadingButton(c, loadingbutton.Props{\n//\t\tLabel:   \"Save\",\n//\t\tLoading: app.saving,\n//\t\tOnClick: save,\n//\t})\npackage loadingbutton\n\nimport (\n\t\"time\"\n\n\t\"github.com/egoist/mygo/ui\"\n)\n\n// Props describes the button to draw.\ntype Props struct {\n\t// Label is what the button says; it keeps showing while Loading,\n\t// beside the spinner, so the button keeps its width.\n\tLabel string\n\t// Loading turns the label into a spinner, and keeps the button from\n\t// being clicked, until the work it started finishes.\n\tLoading bool\n\t// OnClick runs for a click while the button is not loading.\n\tOnClick func()\n}\n\n// LoadingButton draws the button for props and returns it, so a view can\n// chain more calls on it.\nfunc LoadingButton(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tb := ui.ButtonBase(c).Padding(t.Space(1.5), t.Space(3.5)).Radius(t.Radius).Gap(t.Space(2)).\n\t\tBackground(t.Accent).TextColor(t.AccentText)\n\tif p.Loading {\n\t\tb.Disabled(true)\n\t}\n\tb.Children(func() {\n\t\tif p.Loading {\n\t\t\t// A spoke of its own, so the spinner matches the button's\n\t\t\t// text color, which the native Spinner's muted spokes do not.\n\t\t\tspin := b.Loop(\"spin\", 800*time.Millisecond, ui.Linear)\n\t\t\tui.Box(c).Size(t.Space(3.5), t.Space(3.5)).Shrink(0).Rotate(spin * 360).Draw(func(p *ui.Painter, r ui.Rect) {\n\t\t\t\tvar path ui.Path\n\t\t\t\tpath.MoveTo(r.X+r.W/2, r.Y+r.H*0.1).LineTo(r.X+r.W/2, r.Y+r.H*0.35)\n\t\t\t\tp.StrokePath(\u0026path, 2, t.AccentText)\n\t\t\t})\n\t\t}\n\t\tui.Text(c, p.Label).SingleLine()\n\t})\n\tif !p.Loading \u0026\u0026 b.Clicked() \u0026\u0026 p.OnClick != nil {\n\t\tp.OnClick()\n\t}\n\treturn b\n}\n"
+        }
+      ]
+    },
+    {
       "name": "log",
       "type": "components:ui",
       "install": "internal/ui/components/log",
@@ -948,6 +1092,24 @@
         {
           "path": "internal/ui/components/log/log.go",
           "content": "// Package log provides the AgentLog of BoardUI for the MyGo native\n// toolkit: a transcript of an agent's work, each line joined to the next\n// by a curved tree guide, with a working row of stars while the agent is\n// still going. It is the machinery of a streaming transcript; what a row\n// says is the app's own business.\n//\n//\tlog.Log(c, log.Props{\n//\t\tItems:    steps,\n//\t\tRevealed: revealed,\n//\t\tRunning:  working,\n//\t\tWorking:  \"Searching the docs\",\n//\t})\n//\n// The reveal is the app's own pacing, not the component's: pass how many\n// items are shown, and the app advances it with a timer or with the real\n// events of the work, so the log never pretends steps take equal time.\npackage log\n\nimport (\n\t\"github.com/egoist/mygo/ui\"\n\n\t\"github.com/smallnest/uix/components/thinking\"\n)\n\n// Props describes the log to draw.\ntype Props struct {\n\t// Items are the lines of the work, in order.\n\tItems []string\n\t// Revealed is how many items are shown, as the app has paced them;\n\t// it is clamped to the length of Items. 0 shows none.\n\tRevealed int\n\t// Running shows the working row below the revealed items, with the\n\t// stars indicator, while the log is still going.\n\tRunning bool\n\t// Working is the label of the working row, such as \"Searching the\n\t// docs\".\n\tWorking string\n}\n\n// Log draws the transcript and returns it, so a view can chain more\n// calls on it.\nfunc Log(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tn := min(p.Revealed, len(p.Items))\n\treturn ui.Column(c).FillWidth().Gap(t.Space(1)).Children(func() {\n\t\tfor i := 0; i \u003c n; i++ {\n\t\t\trow(c, t, p.Items[i], i == n-1)\n\t\t}\n\t\tif p.Running {\n\t\t\tworkingRow(c, t, p.Working)\n\t\t}\n\t})\n}\n\n// row is one completed line of work, with the stretch of guide that\n// belongs to it: a branch at the top and a trunk running to the next\n// row, which the last row omits so the guide finishes on the corner.\nfunc row(c *ui.Context, t *ui.Theme, label string, last bool) {\n\tguide := t.TextMuted.Alpha(0.45)\n\tui.Row(c).FillWidth().AlignItems(ui.Stretch).Children(func() {\n\t\t// The branch geometry, as the docs sidebar draws it: down the\n\t\t// trunk, round a corner at 14px, out to the label.\n\t\tui.Box(c).Width(12).Shrink(0).Draw(func(pt *ui.Painter, r ui.Rect) {\n\t\t\tvar branch ui.Path\n\t\t\tbranch.MoveTo(r.X+0.5, r.Y)\n\t\t\tbranch.LineTo(r.X+0.5, r.Y+8)\n\t\t\tbranch.QuadTo(r.X+0.5, r.Y+14, r.X+6.5, r.Y+14)\n\t\t\tbranch.LineTo(r.X+11.5, r.Y+14)\n\t\t\tpt.StrokePath(\u0026branch, 1, guide)\n\t\t\tif !last {\n\t\t\t\tpt.Line(r.X+0.5, r.Y+14, r.X+0.5, r.Y+r.H, 1, guide)\n\t\t\t}\n\t\t})\n\t\tui.Text(c, label).TextColor(t.Text).Padding(0, t.Space(1))\n\t})\n}\n\n// workingRow is the line the agent is on now, with the stars indicator.\n// It deliberately sits off the guide: the tree records what the agent\n// did, and this line has not happened yet, so hanging it on the tree\n// would file it alongside the findings.\nfunc workingRow(c *ui.Context, t *ui.Theme, label string) {\n\tui.Row(c).Padding(0, t.Space(1)).Children(func() {\n\t\tthinking.Thinking(c, thinking.Props{\n\t\t\tVariant: thinking.Stars,\n\t\t\tLabel:   label,\n\t\t\tTone:    thinking.Subtle,\n\t\t})\n\t})\n}\n"
+        }
+      ]
+    },
+    {
+      "name": "magicback",
+      "type": "components:ui",
+      "install": "internal/ui/components/magicback",
+      "import": "github.com/smallnest/uix/components/magicback",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/magicback/magicback.go",
+          "content": "// Package magicback provides the Magic Back Button expansion of\n// shadcn/ui: a round back button that returns the app to where it came\n// from, or to its home when it has no history to go back to, as the web\n// button sends a first-time visitor to the homepage.\n//\n//\tmagicback.MagicBack(c, magicback.Props{\n//\t\tBack:  app.canGoBack,\n//\t\tOnBack: goBack,\n//\t\tOnHome: goHome,\n//\t})\npackage magicback\n\nimport \"github.com/egoist/mygo/ui\"\n\n// chevronLeft is the arrow of the button.\nvar chevronLeft = ui.MustParseSVG([]byte(`\u003csvg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\u003e\u003cpath d=\"m15 18-6-6 6-6\"/\u003e\u003c/svg\u003e`))\n\n// Props describes the back button to draw.\ntype Props struct {\n\t// Back is whether the app has a place to go back to; the button\n\t// goes back when true, and home when not, as the web button does\n\t// for a first-time visitor.\n\tBack bool\n\t// OnBack runs for a click while Back is true.\n\tOnBack func()\n\t// OnHome runs for a click while Back is false.\n\tOnHome func()\n\t// Label draws text beside the arrow; empty draws the arrow alone.\n\tLabel string\n}\n\n// MagicBack draws the round back button and returns it, so a view can\n// chain more calls on it.\nfunc MagicBack(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tb := ui.ButtonBase(c).Padding(t.Space(2)).Radius(t.Space(3)).Gap(t.Space(1.5)).\n\t\tBackground(t.Surface).Border(1, t.Border).TextColor(t.Text)\n\tb.Draw(func(pp *ui.Painter, r ui.Rect) {\n\t\tif b.Hovered() || b.Pressed() {\n\t\t\tpp.Fill(r, t.SurfaceHover, t.Space(3))\n\t\t}\n\t})\n\tb.Children(func() {\n\t\tui.Icon(c, chevronLeft).Size(t.Space(3.5), t.Space(3.5))\n\t\tif p.Label != \"\" {\n\t\t\tui.Text(c, p.Label).SingleLine()\n\t\t}\n\t})\n\tif b.Clicked() {\n\t\tif p.Back {\n\t\t\tif p.OnBack != nil {\n\t\t\t\tp.OnBack()\n\t\t\t}\n\t\t} else if p.OnHome != nil {\n\t\t\tp.OnHome()\n\t\t}\n\t}\n\treturn b\n}\n"
         }
       ]
     },
@@ -1058,6 +1220,24 @@
         {
           "path": "internal/ui/components/meter/meter.go",
           "content": "// Package meter provides a shadcn/ui-style meter: a bar that shows a\n// measure against its range, colored by how near the top it is, with a\n// label and a live readout, from the Meter of MyGo.\n//\n//\tmeter.Meter(c, meter.Props{\n//\t\tValue:  0.78,\n//\t\tMax:    1,\n//\t\tLabel:  \"Disk usage\",\n//\t\tLevels: \u0026ui.MeterLevels{Warning: 0.7, Critical: 0.9},\n//\t})\npackage meter\n\nimport (\n\t\"fmt\"\n\n\t\"github.com/egoist/mygo/ui\"\n)\n\n// Props describes the meter to draw.\ntype Props struct {\n\t// Value is the measure, between Min and Max.\n\tValue float64\n\t// Min and Max bound the measure. A Max at or below Min is taken as 1\n\t// above Min, so a bare fraction fills the bar.\n\tMin, Max float64\n\t// Levels turn the bar the Warning color from its Warning share of the\n\t// range, and the Danger color from Critical. The zero value keeps the\n\t// Success color throughout. A Critical below Warning makes low values\n\t// the bad ones, as a battery's.\n\tLevels *ui.MeterLevels\n\t// Label is the text above the bar, next to the readout.\n\tLabel string\n\t// Format renders the readout; the default prints the rounded value.\n\tFormat func(v float64) string\n}\n\n// Meter draws the label, the readout and the bar, and returns the\n// column. The readout follows the value as the app changes it, because\n// the view builds every frame.\nfunc Meter(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tformat := p.Format\n\tif format == nil {\n\t\tformat = func(v float64) string { return fmt.Sprintf(\"%.0f\", v) }\n\t}\n\thi := p.Max\n\tif hi \u003c= p.Min {\n\t\thi = p.Min + 1\n\t}\n\treturn ui.Column(c).Gap(t.Space(0.5)).Children(func() {\n\t\tif p.Label != \"\" {\n\t\t\tui.Row(c).Gap(t.Space(2)).Children(func() {\n\t\t\t\tui.Text(c, p.Label).FontSize(t.FontSize * 0.875).Bold().TextColor(t.TextMuted)\n\t\t\t\tui.Text(c, format(p.Value)).FontSize(t.FontSize * 0.875).TextColor(t.TextMuted)\n\t\t\t})\n\t\t}\n\t\tui.Meter(c, p.Value, p.Min, hi, p.Levels).FillWidth()\n\t})\n}\n"
+        }
+      ]
+    },
+    {
+      "name": "multiselect",
+      "type": "components:ui",
+      "install": "internal/ui/components/multiselect",
+      "import": "github.com/smallnest/uix/components/multiselect",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/multiselect/multiselect.go",
+          "content": "// Package multiselect provides the Multiple Selector expansion of\n// shadcn/ui: a field choosing several of its options, whose trigger\n// lists them, and a popup with a check box for each.\n//\n//\tmultiselect.Multiselect(c, multiselect.Props{\n//\t\tValues:      \u0026roles,\n//\t\tOptions:     []string{\"Editor\", \"Reviewer\", \"Admin\"},\n//\t\tPlaceholder: \"Choose roles\",\n//\t})\npackage multiselect\n\nimport (\n\t\"slices\"\n\t\"strings\"\n\n\t\"github.com/egoist/mygo/ui\"\n)\n\n// Props describes the multi-select to draw.\ntype Props struct {\n\t// Values are the chosen options; the trigger lists them, and the\n\t// popup toggles them.\n\tValues *[]string\n\t// Options are the choices in the popup.\n\tOptions []string\n\t// Placeholder shows in the trigger while nothing is chosen, and\n\t// names the field to assistive technology when Label is empty.\n\tPlaceholder string\n\t// Label names the field to assistive technology, and the tests and\n\t// apps that find it by it; Placeholder when empty.\n\tLabel string\n\t// Open is whether the popup shows; the trigger toggles it, and\n\t// clicking outside or pressing Escape closes it.\n\tOpen *bool\n\t// Disabled keeps the select from opening.\n\tDisabled bool\n}\n\n// Multiselect draws the trigger and the popup for props and returns the\n// trigger, so a view can chain more calls on it.\nfunc Multiselect(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tname := p.Label\n\tif name == \"\" {\n\t\tname = p.Placeholder\n\t}\n\tanchor := ui.ButtonBase(c).Padding(t.Space(1.5), t.Space(3.5)).Gap(t.Space(1.5)).Radius(t.Radius).\n\t\tJustify(ui.SpaceBetween).MinWidth(t.Space(35)).Background(t.Surface).TextColor(t.Text).Border(1, t.Border)\n\tif name != \"\" {\n\t\tanchor.Label(name)\n\t}\n\tif p.Disabled {\n\t\tanchor.Disabled(true)\n\t\tanchor.TextColor(t.TextMuted)\n\t} else if anchor.Clicked() {\n\t\t*p.Open = !*p.Open\n\t}\n\tanchor.Children(func() {\n\t\tif label := strings.Join(*p.Values, \", \"); label != \"\" {\n\t\t\tui.Text(c, label).SingleLine()\n\t\t} else if p.Placeholder != \"\" {\n\t\t\tui.Text(c, p.Placeholder).SingleLine().TextColor(t.TextMuted)\n\t\t}\n\t\tchevron(c, t)\n\t})\n\tui.Popover(c, anchor, p.Open, func() {\n\t\tui.Column(c).Gap(2).Children(func() {\n\t\t\tfor _, opt := range p.Options {\n\t\t\t\ton := slices.Contains(*p.Values, opt)\n\t\t\t\tcb := ui.Checkbox(c, \u0026on, opt)\n\t\t\t\tif cb.Changed() {\n\t\t\t\t\tif on {\n\t\t\t\t\t\t*p.Values = append(*p.Values, opt)\n\t\t\t\t\t} else {\n\t\t\t\t\t\t*p.Values = slices.DeleteFunc(*p.Values, func(s string) bool { return s == opt })\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t})\n\t})\n\treturn anchor\n}\n\n// chevron draws the arrow of the trigger.\nfunc chevron(c *ui.Context, t *ui.Theme) {\n\tui.Box(c).Size(t.Space(2.5), t.Space(2.5)).Shrink(0).Draw(func(p *ui.Painter, r ui.Rect) {\n\t\tvar path ui.Path\n\t\tpath.MoveTo(r.X+r.W*0.1, r.Y+r.H*0.3).LineTo(r.X+r.W*0.5, r.Y+r.H*0.7).LineTo(r.X+r.W*0.9, r.Y+r.H*0.3)\n\t\tp.StrokePath(\u0026path, 1.5, t.TextMuted)\n\t})\n}\n"
         }
       ]
     },
@@ -1257,6 +1437,24 @@
         {
           "path": "internal/ui/components/rating/rating.go",
           "content": "// Package rating provides a shadcn/ui-style Rating: a row of stars that\n// show and set a score, by a click or the arrows.\n//\n//\trating.Rating(c, rating.Props{Value: \u0026stars, Max: 5})\npackage rating\n\nimport (\n\t\"math\"\n\n\t\"github.com/egoist/mygo/ui\"\n)\n\n// Props describes the rating to draw.\ntype Props struct {\n\t// Value is the score, from 0 to Max.\n\tValue *int\n\t// Max is the number of stars.\n\tMax int\n\t// ReadOnly draws the stars without letting the user change the score.\n\tReadOnly bool\n}\n\n// Rating draws Max stars showing *Value, and returns the row, so a view\n// can chain more calls on it. Label names it for assistive technology. A\n// click on a star sets the score to it, and a click on the set star\n// clears it; the arrows and Home and End move the score while focused.\n// ReadOnly draws the stars as they are, without the interaction.\nfunc Rating(c *ui.Context, p Props) ui.Element {\n\tif p.ReadOnly {\n\t\treturn readOnly(c, p)\n\t}\n\treturn ui.Rating(c, p.Value, p.Max)\n}\n\n// readOnly draws the stars for ReadOnly. Why not MyGo's rating: it takes\n// the pointer and the arrows, and no flag turns that off from outside.\nfunc readOnly(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\te := ui.Row(c).Gap(t.Space(0.5)).Shrink(0).Role(ui.RoleSlider).\n\t\tRange(0, float64(p.Max), float64(*p.Value))\n\tstar := t.FontSize * 1.25\n\te.Children(func() {\n\t\tfor i := range p.Max {\n\t\t\tb := ui.Box(c).Size(star, star).Shrink(0).Role(ui.RoleNone)\n\t\t\tb.Draw(func(pp *ui.Painter, r ui.Rect) {\n\t\t\t\tpath := starPath(r)\n\t\t\t\tif i \u003c *p.Value {\n\t\t\t\t\tpp.FillPath(path, t.Warning)\n\t\t\t\t} else {\n\t\t\t\t\tpp.StrokePath(path, 1.2, t.TextMuted)\n\t\t\t\t}\n\t\t\t})\n\t\t}\n\t})\n\treturn e\n}\n\n// starPath returns a five-pointed star in r. Why not MyGo's helper: it\n// is unexported, and the ten points are easy to place.\nfunc starPath(r ui.Rect) *ui.Path {\n\tvar path ui.Path\n\tcx, cy := r.X+r.W/2, r.Y+r.H/2+r.H*0.04\n\touter, inner := r.W*0.48, r.W*0.2\n\tfor i := range 10 {\n\t\trad := outer\n\t\tif i%2 == 1 {\n\t\t\trad = inner\n\t\t}\n\t\ta := float64(i)*math.Pi/5 - math.Pi/2\n\t\tx, y := cx+rad*float32(math.Cos(a)), cy+rad*float32(math.Sin(a))\n\t\tif i == 0 {\n\t\t\tpath.MoveTo(x, y)\n\t\t} else {\n\t\t\tpath.LineTo(x, y)\n\t\t}\n\t}\n\tpath.Close()\n\treturn \u0026path\n}\n"
+        }
+      ]
+    },
+    {
+      "name": "responsivemodal",
+      "type": "components:ui",
+      "install": "internal/ui/components/responsivemodal",
+      "import": "github.com/smallnest/uix/components/responsivemodal",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/responsivemodal/responsivemodal.go",
+          "content": "// Package responsivemodal provides the Responsive Modal expansion of\n// shadcn/ui: a dialog that shows centered on a wide window, and as a\n// bottom sheet on a narrow one, as a phone app's sheet rises from the\n// bottom.\n//\n//\tresponsivemodal.ResponsiveModal(c, responsivemodal.Props{\n//\t\tOpen:  \u0026app.confirm,\n//\t\tTitle: \"Confirm\",\n//\t\tBody:  body,\n//\t})\npackage responsivemodal\n\nimport \"github.com/egoist/mygo/ui\"\n\n// Props describes the modal to draw.\ntype Props struct {\n\t// Open is the bool that shows and hides the modal; the backdrop and\n\t// Escape set it to false.\n\tOpen *bool\n\t// Title is the heading of the modal.\n\tTitle string\n\t// Body draws the content of the modal, under the title.\n\tBody func(c *ui.Context)\n\t// Actions draws the action row, at the bottom of the modal.\n\tActions func(c *ui.Context)\n\t// Breakpoint is the width below which the modal becomes a bottom\n\t// sheet; 640 unless set.\n\tBreakpoint float32\n}\n\n// ResponsiveModal draws the modal for props and returns the panel, so a\n// view can chain more calls on it. The backdrop dims the window;\n// clicking it or pressing Escape closes the modal.\nfunc ResponsiveModal(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tw, h := c.Size()\n\tbp := p.Breakpoint\n\tif bp \u003c= 0 {\n\t\tbp = 640\n\t}\n\treturn ui.DialogBase(c, p.Open, func(back, panel ui.Element) {\n\t\tback.Background(ui.RGBA(0, 0, 0, 0.4))\n\t\tif w \u003e= bp {\n\t\t\tpanel.Padding(t.Space(5)).Gap(t.Space(3)).Radius(t.Radius+4).Background(t.Background).\n\t\t\t\tMinWidth(t.Space(48)).MaxWidth(t.Space(72)).MaxHeight(h-t.Space(10)).\n\t\t\t\tShadow(0, 10, 30, 0, ui.RGBA(0, 0, 0, 0.3))\n\t\t} else {\n\t\t\t// The sheet rises from the bottom of the window; its top\n\t\t\t// corners round, its bottom meets the edge.\n\t\t\tpanel.Absolute().Left(0).Right(0).Bottom(0).\n\t\t\t\tPadding(t.Space(5)).Gap(t.Space(3)).Radius(t.Radius+4, t.Radius+4, 0, 0).\n\t\t\t\tBackground(t.Background).MaxHeight(h-t.Space(4)).\n\t\t\t\tShadow(0, -6, 24, 0, ui.RGBA(0, 0, 0, 0.3))\n\t\t}\n\t\tpanel.Children(func() {\n\t\t\tui.Text(c, p.Title).Bold()\n\t\t\tif p.Body != nil {\n\t\t\t\tp.Body(c)\n\t\t\t}\n\t\t\tif p.Actions != nil {\n\t\t\t\tp.Actions(c)\n\t\t\t}\n\t\t})\n\t})\n}\n"
         }
       ]
     },
@@ -1780,6 +1978,24 @@
         {
           "path": "internal/ui/components/tree/tree.go",
           "content": "// Package tree provides a hierarchical list whose branches open and\n// close, from the mygo Tree and TreeItem widgets. A node with Children\n// is a branch, one without them a leaf. Choosing a node highlights it\n// and runs its action.\npackage tree\n\nimport (\n\t\"github.com/egoist/mygo/ui\"\n)\n\n// Item is one node of the tree.\ntype Item struct {\n\t// Label is the text of the node. Labels must differ, as the chosen\n\t// node is found by its label.\n\tLabel string\n\t// Open opens and closes a branch. A branch — an item with Children —\n\t// needs it; the tree flips it when the arrow is clicked.\n\tOpen *bool\n\t// Children are the nodes inside the branch.\n\tChildren []Item\n\t// Action runs when the node is chosen, by a click or Enter.\n\tAction func()\n}\n\n// Props configure the tree.\ntype Props struct {\n\t// Items are the nodes of the tree.\n\tItems []Item\n\t// Chosen is the label of the chosen node. The tree sets it when a\n\t// node is chosen and shows the node highlighted. nil keeps the tree\n\t// from highlighting.\n\tChosen *string\n\t// Disabled keeps the tree from opening or choosing nodes.\n\tDisabled bool\n}\n\n// Tree draws the items as a tree. A click on the arrow of a branch\n// opens or closes it; a click on a node, or Enter, chooses it. While a\n// node has the keyboard focus, Up and Down move around it, Right opens\n// it or moves to its first child, and Left closes it or moves to its\n// parent.\nfunc Tree(c *ui.Context, p Props) ui.Element {\n\tt := ui.Tree(c, func() {\n\t\tfor _, it := range p.Items {\n\t\t\tbuild(c, it, p)\n\t\t}\n\t})\n\tif p.Disabled {\n\t\tt.Disabled(true)\n\t}\n\treturn t\n}\n\n// build draws a node, the nodes inside it, and applies the choice.\nfunc build(c *ui.Context, it Item, p Props) {\n\titem := ui.TreeItem(c, it.Label, it.Open, func() {\n\t\tfor _, child := range it.Children {\n\t\t\tbuild(c, child, p)\n\t\t}\n\t})\n\tif p.Chosen != nil {\n\t\titem.Selected(*p.Chosen == it.Label)\n\t}\n\tif item.Clicked() {\n\t\tif p.Chosen != nil {\n\t\t\t*p.Chosen = it.Label\n\t\t}\n\t\tif it.Action != nil {\n\t\t\tit.Action()\n\t\t}\n\t}\n}\n"
+        }
+      ]
+    },
+    {
+      "name": "typewriter",
+      "type": "components:ui",
+      "install": "internal/ui/components/typewriter",
+      "import": "github.com/smallnest/uix/components/typewriter",
+      "registryDependencies": [
+        "base"
+      ],
+      "dependencies": [
+        "github.com/egoist/mygo"
+      ],
+      "files": [
+        {
+          "path": "internal/ui/components/typewriter/typewriter.go",
+          "content": "// Package typewriter provides the Typewriter expansion of shadcn/ui: a\n// text that types itself out, a character at a time, with a blinking\n// caret. A native app uses it to make a headline arrive, or a message\n// as if someone is typing it.\n//\n//\ttypewriter.Typewriter(c, typewriter.Props{Text: \"Hello from MyGo\"})\npackage typewriter\n\nimport (\n\t\"time\"\n\t\"unicode/utf8\"\n\n\t\"github.com/egoist/mygo/ui\"\n)\n\n// State tracks the typing of a typewriter, so the view can be told when\n// it completes. Pass it in Props to receive the OnComplete call and to\n// let the typewriter stop animating once it is done.\ntype State struct {\n\t// Done is true once the text is fully revealed; it stays true while\n\t// the typewriter is looping, until it starts over.\n\tDone bool\n}\n\n// Props describes the text to type.\ntype Props struct {\n\t// Text is what the typewriter types.\n\tText string\n\t// Speed is the time for one character; 33ms unless set.\n\tSpeed time.Duration\n\t// Loop replays the text from the start, once typed; false types it\n\t// once and keeps it.\n\tLoop bool\n\t// Cursor shows a blinking caret after the text; on unless set.\n\tCursor *bool\n\t// State is where the typewriter keeps its progress. Without it, the\n\t// text still types once; pass it to be told when that completes\n\t// (OnComplete) and to let the typewriter rest when done.\n\tState *State\n\t// OnComplete runs once, when the text is fully revealed; it needs\n\t// State, so it runs once, not every frame.\n\tOnComplete func()\n}\n\n// Typewriter draws the revealed text with the caret and returns the row,\n// so a view can chain more calls on it.\nfunc Typewriter(c *ui.Context, p Props) ui.Element {\n\tt := c.Theme()\n\tspeed := p.Speed\n\tif speed \u003c= 0 {\n\t\tspeed = 33 * time.Millisecond\n\t}\n\tcursor := p.Cursor == nil || *p.Cursor\n\tn := utf8.RuneCountInString(p.Text)\n\ttotal := time.Duration(max(n, 1)) * speed\n\n\te := ui.Row(c).FillWidth().Gap(1).AlignItems(ui.Center)\n\te.Children(func() {\n\t\tvar progress float32\n\t\tswitch {\n\t\tcase p.Loop:\n\t\t\t// The loop re-types the text forever, as a marquee does.\n\t\t\tprogress = e.Loop(\"type\", total, ui.Linear)\n\t\tcase p.State != nil \u0026\u0026 p.State.Done:\n\t\t\tprogress = 1\n\t\tdefault:\n\t\t\t// Why a Loop that hands the animation to AnimateWith: the\n\t\t\t// Loop starts the reveal from 0 on the first frame, and\n\t\t\t// AnimateWith then moves it to 1 and keeps it there, where a\n\t\t\t// Loop alone would wrap around and type the text again.\n\t\t\te.Loop(\"type\", total, ui.Linear)\n\t\t\tprogress = e.AnimateWith(\"type\", 1, total, ui.Linear)\n\t\t}\n\t\treveal := int(progress * float32(n))\n\t\tif reveal \u003e n {\n\t\t\treveal = n\n\t\t}\n\t\tshown := string([]rune(p.Text)[:reveal])\n\t\tui.Text(c, shown)\n\t\tif cursor {\n\t\t\t// The caret blinks on its own Loop, a square on and off.\n\t\t\tblink := e.Loop(\"cursor\", 600*time.Millisecond, ui.Linear)\n\t\t\ton := int(blink*2)%2 == 0\n\t\t\tui.Box(c).Size(2, t.FontSize).Shrink(0).Draw(func(p *ui.Painter, r ui.Rect) {\n\t\t\t\tif on {\n\t\t\t\t\tp.Fill(r, t.Text, 0)\n\t\t\t\t}\n\t\t\t})\n\t\t}\n\t\tif reveal == n \u0026\u0026 p.State != nil \u0026\u0026 !p.State.Done {\n\t\t\tp.State.Done = true\n\t\t\tif p.OnComplete != nil {\n\t\t\t\tp.OnComplete()\n\t\t\t}\n\t\t}\n\t})\n\treturn e\n}\n"
         }
       ]
     }

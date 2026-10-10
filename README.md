@@ -168,6 +168,29 @@ without HTML. Where BoardUI leans on the browser (an input element), the
 port uses the closest native MyGo equivalent, such as the open dialog for
 a file pick, and the drop zones take files from other apps directly.
 
+The twelve rows below are ports of the
+[shadcn/ui expansions](https://shadcnui-expansions.typeart.cc) to MyGo's
+native UI. Where an expansion leans on the browser, the port uses the
+closest native MyGo equivalent: the responsive modal becomes a bottom
+sheet on a narrow window, the heading anchor copies `uix#section` to the
+clipboard instead of setting a URL, and the magic back button returns to
+the app's home when it has no history.
+
+| Component | Role |
+| --- | --- |
+| `autosizetextarea` | Text area that grows with its text, from a floor to a ceiling of rows |
+| `blockquote` | Quote on a muted face with an accent bar, and the author at the far end |
+| `datetimepicker` | Date field and time field editing one moment together |
+| `floatinglabelinput` | Field whose label sits inside it, and floats to the top border on focus or text |
+| `headingwithanchor` | Heading with a link button that copies the section's anchor to the clipboard |
+| `infinitescroll` | Scrolling list that loads the next page as its end comes near |
+| `interactivestepper` | Steps of a process, each reachable from its indicator, with Back and Next |
+| `loadingbutton` | Button that turns into a spinner while its work runs, and stops clicks |
+| `magicback` | Round back button that goes back, or home when there is no history |
+| `multiselect` | Field choosing several options, whose popup has a check box for each |
+| `responsivemodal` | Dialog centered on a wide window, a bottom sheet on a narrow one |
+| `typewriter` | Text that types itself out, a character at a time, with a blinking caret |
+
 ## Examples
 
 The `examples` directory shows the components at work. An example imports
