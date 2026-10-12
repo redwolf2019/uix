@@ -1,8 +1,8 @@
 // Package inlinecode provides the Inline Code expansion of shadcn/ui: a
-// code chip in the prose, as `uix add` is written inside a sentence,
+// code chip in the prose, as a command is written inside a sentence,
 // with a muted face and the monospace font.
 //
-//	inlinecode.InlineCode(c, inlinecode.Props{Text: "uix add button"})
+//	inlinecode.InlineCode(c, inlinecode.Props{Text: "go get github.com/smallnest/uix/components/button"})
 package inlinecode
 
 import "github.com/egoist/mygo/ui"

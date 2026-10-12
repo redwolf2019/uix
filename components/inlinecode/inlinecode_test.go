@@ -16,17 +16,17 @@ func frame(p Props) func(c *ui.Context) {
 
 // TestRenders draws the code chip.
 func TestRenders(t *testing.T) {
-	tt := ui.NewTester(frame(Props{Text: "uix add button"}), 320, 100)
-	if !tt.HasText("uix add button") {
+	tt := ui.NewTester(frame(Props{Text: "go get github.com/smallnest/uix/components/button"}), 320, 100)
+	if !tt.HasText("go get github.com/smallnest/uix/components/button") {
 		t.Fatalf("texts %q", tt.Texts())
 	}
 }
 
 // TestDarkMode draws the chip under the dark appearance too.
 func TestDarkMode(t *testing.T) {
-	tt := ui.NewTester(frame(Props{Text: "uix add button"}), 320, 100)
+	tt := ui.NewTester(frame(Props{Text: "go get github.com/smallnest/uix/components/button"}), 320, 100)
 	tt.SetDark(true)
-	if !tt.HasText("uix add button") {
+	if !tt.HasText("go get github.com/smallnest/uix/components/button") {
 		t.Fatal("chip missing under dark mode")
 	}
 }

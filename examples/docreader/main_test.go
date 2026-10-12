@@ -23,7 +23,7 @@ func TestRenders(t *testing.T) {
 	for _, s := range []string{
 		"uix notes", "Reader", "Outline", "Find",
 		"Welcome", "Find", "Rename", "Outline",
-		"component registry for the MyGo native UI toolkit",
+		"component library for the MyGo native UI toolkit",
 		"Double click the title to rename it, or press Find to search.",
 	} {
 		if !tt.HasText(s) {

@@ -141,7 +141,7 @@ func about(c *ui.Context, t *ui.Theme) {
 		badge.Badge(c, badge.Props{Label: "MyGo", Variant: badge.Secondary})
 		badge.Badge(c, badge.Props{Label: "Native", Variant: badge.Outline})
 	})
-	ui.Text(c, "A component registry for native UI, in the way of shadcn/ui.").
+	ui.Text(c, "A component library for native UI, in the way of shadcn/ui.").
 		TextColor(t.TextMuted).MaxWidth(t.Space(45))
 	button.Button(c, button.Props{
 		Label:   "Check for updates",

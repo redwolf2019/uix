@@ -55,7 +55,7 @@ var faqs = []struct {
 }{
 	{"What is uix?", &State.FAQ1, "uix is a component library for MyGo apps. Import a component with go get, and it draws with the native UI, no webview."},
 	{"How do I add components?", &State.FAQ2, "Add a component to your go.mod with go get, and import it in your view. A component imports only mygo and its sibling parts, so it composes cleanly."},
-	{"How do I build a theme?", &State.FAQ3, "Pick a palette with uix theme set, or set a custom one with uix theme set custom and a hex color of your own."},
+	{"How do I build a theme?", &State.FAQ3, "Start from the palette of the base package, and override the colors you want with hexes of your own on the theme."},
 }
 
 // HelpView draws the example: a help page whose controls all work.

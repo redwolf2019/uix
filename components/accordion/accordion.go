@@ -12,7 +12,7 @@
 //	})
 //
 // To keep one section open at a time, close the others as one opens, as
-// this registry does in its examples: build the sections with
+// this library does in its examples: build the sections with
 // AccordionItem and an index of the one open:
 //
 //	for i, s := range sections {

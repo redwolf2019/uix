@@ -15,7 +15,8 @@
 //	muted        -> SurfaceHover  border      -> Border
 //	muted-fg     -> TextMuted     ring        -> Focus
 //
-// uix theme set regenerates this file from the palette it names.
+// Change a value here and every component restyles at once; a view can
+// also override the colors on the theme it sets.
 package tokens
 
 import "github.com/egoist/mygo/ui"

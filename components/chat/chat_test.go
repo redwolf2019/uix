@@ -21,12 +21,12 @@ func TestRenders(t *testing.T) {
 	tt := ui.NewTester(frame(Props{
 		Messages: []Message{
 			{Role: User, Text: "Explain uix"},
-			{Role: Assistant, Text: "uix is a component registry for MyGo."},
+			{Role: Assistant, Text: "uix is a component library for MyGo."},
 		},
 		Value:    str(""),
 		Provider: "Anthropic",
 	}), 420, 520)
-	for _, s := range []string{"Explain uix", "uix is a component registry for MyGo.", "Anthropic"} {
+	for _, s := range []string{"Explain uix", "uix is a component library for MyGo.", "Anthropic"} {
 		if !tt.HasText(s) {
 			t.Fatalf("missing %q in %q", s, tt.Texts())
 		}

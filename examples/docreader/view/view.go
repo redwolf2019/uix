@@ -67,7 +67,7 @@ type para struct {
 
 // doc is the document the reader shows.
 var doc = []para{
-	{Heading: "Welcome", Body: "uix is a component registry for the MyGo native UI toolkit. You copy a component into your project and own it, as shadcn/ui does for the web."},
+	{Heading: "Welcome", Body: "uix is a component library for the MyGo native UI toolkit. Import a component with go get, and it draws with the native UI, no webview."},
 	{Heading: "Find", Body: "Press Find, and type a word. The matches highlight in the text, the bar counts them, and Next and Previous step to each in turn."},
 	{Heading: "Rename", Body: "Double click the title to rename the document in place, as a file in Finder. Enter keeps the new name, and Escape goes back."},
 	{Heading: "Outline", Body: "The segmented control switches between the reader and the outline of the headings. A click on a heading jumps back to it in the reader."},
