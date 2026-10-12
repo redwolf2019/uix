@@ -222,7 +222,7 @@ func replyFor(text string) []string {
 	case strings.Contains(text, "name"):
 		return strings.Fields("How about Pulse? It is short, it is fast, and it says what the app does: it keeps the team in the loop.")
 	default:
-		return strings.Fields("Here is what I found: these components are native MyGo UI, they copy into your app with uix add, and the theme tokens keep them in your style.")
+		return strings.Fields("Here is what I found: these components are native MyGo UI, you import them with go get, and the theme tokens keep them in your style.")
 	}
 }
 

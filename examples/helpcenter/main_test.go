@@ -28,7 +28,7 @@ func TestRenders(t *testing.T) {
 		"Help Center", "Home", "Docs", "FAQ",
 		"You are at Home › Docs › FAQ",
 		"What is uix?", "How do I add components?", "How do I build a theme?",
-		"uix is a component registry for MyGo apps.",
+		"uix is a component library for MyGo apps.",
 		"More help options",
 		"Email support at help@uix.dev, or open an issue on GitHub.",
 		"Help",
@@ -63,7 +63,7 @@ func TestFAQ(t *testing.T) {
 	if !view.State.FAQ2 {
 		t.Fatal("the click did not open the section")
 	}
-	if !tt.HasText("Run uix add button in your Go module") {
+	if !tt.HasText("Add a component to your go.mod with go get") {
 		t.Fatal("the answer did not show")
 	}
 }

@@ -21,7 +21,7 @@ func TestRenders(t *testing.T) {
 	tt := newTester(t)
 	for _, s := range []string{
 		"Getting Started",
-		"uix add button",
+		"go get github.com/smallnest/uix/components/button",
 		"Simplicity is the soul of efficiency.",
 		"Austin Freeman",
 	} {

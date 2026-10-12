@@ -1,6 +1,0 @@
-{
-  "type": "components:ui",
-  "install": "internal/ui/components/datetimepicker",
-  "dependencies": ["github.com/egoist/mygo"],
-  "registryDependencies": ["base"]
-}

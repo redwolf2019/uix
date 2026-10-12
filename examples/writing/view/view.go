@@ -52,10 +52,10 @@ func WritingView(c *ui.Context) {
 			Anchor:   "getting-started",
 			OnAnchor: func() { State.Copied = "uix#getting-started" },
 		})
-		ui.Text(c, "The uix registry brings the shadcn/ui components to MyGo, a native toolkit: the same roles, drawn without HTML.")
+		ui.Text(c, "uix brings the shadcn/ui components to MyGo, a native toolkit: the same roles, drawn without HTML.")
 		ui.Row(c).FillWidth().Wrap().AlignItems(ui.Center).Gap(4).Children(func() {
 			ui.Text(c, "Run")
-			inlinecode.InlineCode(c, inlinecode.Props{Text: "uix add button"})
+			inlinecode.InlineCode(c, inlinecode.Props{Text: "go get github.com/smallnest/uix/components/button"})
 			ui.Text(c, "to add a component to your app.")
 		})
 		ui.Column(c).FillWidth().Padding(t.Space(2), 0).Children(func() {

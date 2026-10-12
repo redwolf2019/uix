@@ -1,26 +1,18 @@
 # uix
 
-uix is a shadcn/ui-style component registry for the [MyGo](https://github.com/egoist/mygo) native UI toolkit.
+uix is a shadcn/ui-style component library for the [MyGo](https://github.com/egoist/mygo) native UI toolkit.
 
-The model follows shadcn/ui. A component is source code that you copy into your project and own. It is not a library you import. The `uix` command installs components from a registry into your Go module.
-
-The components draw with MyGo's native UI. They do not use a webview.
+Import a component the Go way — it is a normal package of the module — and it draws with MyGo's native UI. No webview, no HTML.
 
 ## Quick start
 
-Install the base set, which contains the design tokens:
+Import the components you use:
 
 ```sh
-uix init
+go get github.com/smallnest/uix/components/base github.com/smallnest/uix/components/button
 ```
 
-Add a component:
-
-```sh
-uix add button
-```
-
-Use it in a view:
+The `base` package holds the design tokens; `go mod tidy` fetches any sibling a component composes. Use the components in a view:
 
 ```go
 package main
@@ -28,8 +20,8 @@ package main
 import (
 	"github.com/egoist/mygo"
 	"github.com/egoist/mygo/ui"
-	"demo/internal/ui/tokens"
-	"demo/internal/ui/components/button"
+	tokens "github.com/smallnest/uix/components/base"
+	"github.com/smallnest/uix/components/button"
 )
 
 func view(c *ui.Context) {
@@ -162,13 +154,13 @@ func main() {
 | `messagescroller` | Viewport of a conversation that follows the end, and offers a button back to it |
 | `nativeselect` | Drop-down on the platform's own menu, with grouped options |
 
-The last twelve rows are ports of [BoardUI](https://github.com/BoardUI/boardui)
+The last rows are ports of [BoardUI](https://github.com/BoardUI/boardui)
 components to MyGo's native UI: the same roles and the same look, drawn
 without HTML. Where BoardUI leans on the browser (an input element), the
 port uses the closest native MyGo equivalent, such as the open dialog for
 a file pick, and the drop zones take files from other apps directly.
 
-The twelve rows below are ports of the
+The rows below are ports of the
 [shadcn/ui expansions](https://shadcnui-expansions.typeart.cc) to MyGo's
 native UI. Where an expansion leans on the browser, the port uses the
 closest native MyGo equivalent: the responsive modal becomes a bottom
@@ -195,68 +187,8 @@ the app's home when it has no history.
 ## Examples
 
 The `examples` directory shows the components at work. An example imports
-the components of this repository directly, so it always shows the current
-source. See `examples/README.md`.
-
-## Commands
-
-| Command | Action |
-| --- | --- |
-| `uix init` | Install the base set (design tokens) into the current Go module. |
-| `uix add <name>` | Install a component and its dependencies into the current Go module. |
-| `uix list` | List the components in the registry. |
-| `uix theme list` | List the palettes a module can pick. |
-| `uix theme set <name>` | Write a palette into the tokens of the current module. |
-| `uix theme set custom <hex>` | Derive a palette from your own accent color. |
-| `uix registry build` | Rebuild the embedded registry from the `components` directory. |
-| `uix registry serve` | Serve the registry over HTTP, so other machines can `uix add` from it. |
-
-Use `-dir` to point at another Go module, and `-registry <url>` to add from a remote registry.
-
-## HTTP registry
-
-The registry is embedded in the `uix` binary. To serve it over HTTP so
-`uix add` works from another machine:
-
-```sh
-uix registry serve -addr :7373           # serve the embedded registry
-curl http://localhost:7373/registry.json # the registry as one JSON file
-```
-
-On the consumer machine, point `uix add` at it:
-
-```sh
-uix add button -registry http://localhost:7373/registry.json
-```
-
-Or write the URL into `uix.config.json`, and every `uix add` in that module
-uses it:
-
-```json
-{
-  "registry": "http://localhost:7373/registry.json"
-}
-```
-
-To publish a registry you build from the current components (for example, a
-fork), build the JSON and host it anywhere:
-
-```sh
-go run ./cmd/uix registry build -out dist/registry.json
-```
-
-## How it works
-
-The registry is one JSON file. Each item carries its files with their content. The `uix add` command reads the registry, writes the files into `internal/ui`, and fetches the Go modules they need.
-
-| shadcn/ui | uix |
-| --- | --- |
-| `npx shadcn add button` | `uix add button` |
-| CSS variables (design tokens) | `internal/ui/tokens` themes |
-| Radix primitives | MyGo `ui` primitives |
-| Tailwind classes | Theme colors in the `Context` |
-| `components/ui/*.tsx` | `internal/ui/components/*` |
-| `cn()` util | Variant system in each component |
+the components of this repository directly, the way a library consumer
+does, so it always shows the current source. See `examples/README.md`.
 
 ## Design tokens
 
@@ -281,56 +213,27 @@ Apply the palette at the top of a view:
 c.SetTheme(tokens.For(c.Theme().Dark))
 ```
 
-### Choosing a palette
+The palette ships in the `base` package. To change it, start from it and
+override the colors you want, on the theme you set:
 
-Pick another palette from the built-in set:
-
-```sh
-uix theme list
-uix theme set emerald
+```go
+t := tokens.Light()
+t.Accent = ui.Hex("#0f766e")
+c.SetTheme(t)
 ```
 
-Each palette is one accent scale for both appearances, with the danger
-color and the text color on the accent. `uix theme set` regenerates
-`internal/ui/tokens/tokens.go`, which you own: the palettes are a
-starting point, and the file stays yours to edit.
-
-Derive a palette from your own accent color, the way the shadcn/ui
-theme builder turns one swatch into a theme:
-
-```sh
-uix theme set custom '#f97316'
-```
-
-The light appearance keeps your accent and darkens it for hover and
-press; the dark appearance lightens it so it reads on the dark
-background. The text color on the accent follows the luminance, white
-or near-black. The danger color stays the default of the built-in
-palettes, and a very light accent keeps its color in the dark
-appearance instead of washing out.
+`tokens.Light` and `tokens.Dark` start from the MyGo theme, so the
+neutrals, fonts and metrics stay system-tuned; only the colors you name
+change.
 
 ## Writing a component
 
-Add a directory under `components`. Each directory is one item. An optional `uix.json` in it says how the item installs:
+Add a directory under `components`. Each directory is one package,
+importable from the module. A component reads its colors from the theme
+of the `Context`.
 
-```json
-{
-  "type": "components:ui",
-  "install": "internal/ui/components/button",
-  "dependencies": ["github.com/egoist/mygo"],
-  "registryDependencies": ["base"]
-}
-```
-
-The defaults are the base set at `internal/ui` and components at `internal/ui/components/<name>`.
-
-Then rebuild the registry:
-
-```sh
-go run ./cmd/uix registry build
-```
-
-Write a headless test for the component. MyGo renders frames in memory without a window:
+Write a headless test for the component. MyGo renders frames in memory
+without a window:
 
 ```go
 func TestClick(t *testing.T) {
@@ -354,7 +257,7 @@ func TestClick(t *testing.T) {
 
 ## Rules
 
-- A component imports only `github.com/egoist/mygo` and the sibling components it composes. `uix add` rewrites the import of a sibling to the path the copy has in your module, so the copies never pull in the registry's module.
+- A component imports only `github.com/egoist/mygo` and the sibling components it composes.
 - A component reads its colors from the theme of the `Context`. It does not hard-code colors.
 - Every component ships with a headless test that proves its behavior.
 

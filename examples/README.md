@@ -2,8 +2,8 @@
 
 The examples show the uix components at work. Each example is a folder in
 this directory. An example imports the components of this repository
-directly, so it always shows the current source. (An app you build
-copies the components with `uix add`; an example has no such copy.)
+directly, the way a library consumer does, so it always shows the current
+source.
 
 ## Forms
 
