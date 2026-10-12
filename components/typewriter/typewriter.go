@@ -64,12 +64,15 @@ func Typewriter(c *ui.Context, p Props) ui.Element {
 		case p.State != nil && p.State.Done:
 			progress = 1
 		default:
-			// Why a Loop that hands the animation to AnimateWith: the
-			// Loop starts the reveal from 0 on the first frame, and
-			// AnimateWith then moves it to 1 and keeps it there, where a
-			// Loop alone would wrap around and type the text again.
-			e.Loop("type", total, ui.Linear)
-			progress = e.AnimateWith("type", 1, total, ui.Linear)
+			// Why Keyframes and not a Loop or an Animate: a Loop wraps
+			// around and would re-type the text, and AnimateWith jumps to
+			// its target on the first call. Keyframes starts at its first
+			// frame's value, plays to the last, and holds it when done,
+			// asking for no more frames.
+			progress = e.Keyframes("type", []ui.Keyframe{
+				{At: 0, Value: 0, Ease: ui.Linear},
+				{At: total, Value: 1, Ease: ui.Linear},
+			})
 		}
 		reveal := int(progress * float32(n))
 		if reveal > n {
@@ -77,8 +80,11 @@ func Typewriter(c *ui.Context, p Props) ui.Element {
 		}
 		shown := string([]rune(p.Text)[:reveal])
 		ui.Text(c, shown)
-		if cursor {
-			// The caret blinks on its own Loop, a square on and off.
+		done := p.State != nil && p.State.Done
+		if cursor && !done {
+			// The caret blinks on its own Loop, a square on and off; it
+			// rests once the text is done, so the typewriter asks for no
+			// more frames.
 			blink := e.Loop("cursor", 600*time.Millisecond, ui.Linear)
 			on := int(blink*2)%2 == 0
 			ui.Box(c).Size(2, t.FontSize).Shrink(0).Draw(func(p *ui.Painter, r ui.Rect) {
