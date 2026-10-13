@@ -29,11 +29,19 @@ type SettingsState struct {
 // SettingsCategory describes a navigation destination. IDs must be
 // nonempty and unique among siblings; keep them stable across
 // localization and rebuilds. Icon is the leading glyph of the sidebar
-// item, drawn in the accent color.
+// item, drawn in the accent color; Image, such as a project logo,
+// replaces Icon in the navigation when set.
 type SettingsCategory struct {
 	ID, Title, Section, Description string
 	Icon                            *ui.SVG
-	Groups                          []SettingsGroup
+	Image                           ui.ImageSource
+	// Leading replaces Image and Icon with application-built,
+	// non-interactive sidebar content, such as an icon that animates. It
+	// builds into a size-by-size box, the size the icon would occupy, and
+	// is not built in the narrow category selector or during metadata
+	// search.
+	Leading func(c *ui.Context, size float32)
+	Groups  []SettingsGroup
 }
 
 // SettingsGroup groups related items. Title may be empty for an unheaded
@@ -191,7 +199,12 @@ func Settings(c *ui.Context, state *SettingsState, categories []SettingsCategory
 										b.Background(t.Text.Alpha(.1))
 									}
 									b.Children(func() {
-										if category.Icon != nil {
+										switch {
+										case category.Leading != nil:
+											category.Leading(c, t.Space(4.5))
+										case category.Image != nil:
+											ui.Image(c, category.Image).Size(t.Space(4.5), t.Space(4.5)).Shrink(0)
+										case category.Icon != nil:
 											ui.Icon(c, category.Icon).Size(t.Space(4.5), t.Space(4.5)).Shrink(0).TextColor(t.Accent)
 										}
 										ui.Text(c, category.Title).SingleLine()

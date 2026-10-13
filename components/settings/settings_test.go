@@ -149,6 +149,23 @@ func TestEmpty(t *testing.T) {
 	}
 }
 
+// TestLeading draws a category's Leading content in its sidebar row in
+// place of the accent icon, and a category with only an Image draws the
+// image; either way the title still shows.
+func TestLeading(t *testing.T) {
+	categories, state, _ := catalog()
+	categories[0].Leading = func(c *ui.Context, size float32) {
+		ui.Text(c, "OWN").FontSize(size)
+	}
+	categories[1].Image = ui.MustParseSVG([]byte(`<svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>`))
+	tt := ui.NewTester(frame(categories, state), 640, 520)
+	for _, s := range []string{"OWN", "General", "Network"} {
+		if !tt.HasText(s) {
+			t.Fatalf("missing %q in %q", s, tt.Texts())
+		}
+	}
+}
+
 // TestNarrow replaces the sidebar with a category selector and stacks
 // the items below.
 func TestNarrow(t *testing.T) {
