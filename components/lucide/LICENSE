@@ -1,0 +1,13 @@
+The generated icons in this directory are Lucide icons
+(https://lucide.dev), licensed under the ISC License:
+
+    Copyright (c) for portions of Lucide are held by Lucide Contributors
+    as part of the Lucide project (https://lucide.dev)
+
+    Permission to use, copy, modify, and/or distribute this software for
+    any purpose with or without fee is hereby granted, provided that the
+    above copyright notice and this permission notice appear in all
+    copies.
+
+The accessor scaffolding (doc.go) is ported from the onevra project
+(https://github.com/oneo-me/onevra), MIT License.

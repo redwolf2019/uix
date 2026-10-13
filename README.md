@@ -184,6 +184,19 @@ the app's home when it has no history.
 | `responsivemodal` | Dialog centered on a wide window, a bottom sheet on a narrow one |
 | `typewriter` | Text that types itself out, a character at a time, with a blinking caret |
 
+The rows below are ports of the
+[onevra](https://github.com/oneo-me/onevra) components to MyGo's native
+UI. They keep the same roles: parsing happens once on the application
+side, and rendering draws the retained result, so the UI thread never
+runs a parser.
+
+| Component | Role |
+| --- | --- |
+| `code` | Retained syntax highlighting: a parsed document that renders its light and dark spans |
+| `markdown` | Markdown with GFM tables, tasks and images, and highlighted code blocks |
+| `lucide` | The Lucide icon set, each icon one lazy parse shared by every draw |
+| `settings` | Settings surface of categories, groups and items, with search over their metadata |
+
 ## Examples
 
 The `examples` directory shows the components at work. An example imports
@@ -248,6 +261,7 @@ func TestClick(t *testing.T) {
 
 ## Related projects
 
+- [onevra](https://github.com/oneo-me/onevra) — the sibling component library these four rows port: the settings composer, the Markdown and code views and the Lucide set come from it. MIT.
 - [MujicaUI](https://github.com/ZacharyZhang-NY/MujicaUI) — a court-gothic component library for MyGo native UI. Ivory and charcoal base, wine-red accent, old-gold ornament lines, serif titles. 100 components, light and dark themes, three densities. MyGo draws the UI on the GPU; no webview. MIT.
 - [GoRex](https://github.com/egoist/gorex) — a clone of Superlogical's Rex terminal in MyGo native UI. Tabs and split panes, persistent sessions, program activity. No webview, no cgo; one ~15 MB app.
 - [Godiff](https://github.com/egoist/godiff) — a reimplementation of codiff in MyGo native UI. Review Git changes and commit them, all local. No webview, no JavaScript.
@@ -257,7 +271,7 @@ func TestClick(t *testing.T) {
 
 ## Rules
 
-- A component imports only `github.com/egoist/mygo` and the sibling components it composes.
+- A component imports only `github.com/egoist/mygo`, the sibling components it composes, and the mature parser a port needs (goldmark for Markdown, chroma for highlighting).
 - A component reads its colors from the theme of the `Context`. It does not hard-code colors.
 - Every component ships with a headless test that proves its behavior.
 
