@@ -32,6 +32,8 @@ type Props struct {
 	// Value is the text being typed; the composer clears it when it
 	// submits.
 	Value *string
+	// Placeholder is the field's hint text when Value is empty.
+	Placeholder string
 	// Busy keeps the send button a stop button, and lights the pill.
 	Busy bool
 	// OnSubmit runs when Enter is pressed or the send button is clicked,
@@ -103,9 +105,13 @@ func pill(c *ui.Context, t *ui.Theme, p Props) {
 		slot.Label("Add attachment")
 		slot.Children(func() { paperclip(c, t.TextMuted) })
 
+		ph := p.Placeholder
+		if ph == "" {
+			ph = "Ask me anything"
+		}
 		in := ui.TextInput(c, p.Value).Grow(1).MinWidth(0).Padding(0).
 			Border(0, ui.Color{}).Background(ui.Color{}).
-			Placeholder("Ask me anything").Label("Message")
+			Placeholder(ph).Label("Message")
 		if in.Submitted() {
 			submit(c, p)
 		}
