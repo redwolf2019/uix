@@ -415,3 +415,17 @@ go run ./examples/loading                open the window
 go test ./examples/loading/...           render and check it headless
 go run ./examples/loading/cmd/snapshot   write loading.png, loading-paying.png, loading-order.png and loading-dark.png
 ```
+
+## Webview
+
+The webview example shows the webview component: a window of MyGo native
+UI with a toolbar of native controls over a web page. The reload button
+reloads the page, and the native chrome of the window draws over it. The
+page shows only in a window; the tests and the snapshot draw the toolbar
+alone, headless.
+
+```
+go run ./examples/webview                open the window, showing example.com
+go test ./examples/webview/...           render and check it headless
+go run ./examples/webview/cmd/snapshot   write light.png and dark.png
+```

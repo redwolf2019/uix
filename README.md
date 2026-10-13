@@ -129,6 +129,7 @@ func main() {
 | `questionnaire` | Form of questions, one at a time, with a progress bar and Back and Next |
 | `scrollhorizontal` | Row that scrolls its content sideways |
 | `scrollboth` | Container that scrolls its content up and sideways |
+| `webview` | Web page inside the native UI, from a web view of the window |
 | `link` | Text that opens a URL, or a path of the Router it lives in |
 | `icon` | SVG shown as an icon, in the color of the text around it |
 | `image` | Bitmap or SVG shown as a picture, at its size or fitted into a box |
